@@ -67,14 +67,14 @@ public class UcfCoder {
     public static final int CREATURE_HORSE = 0xD;
     public static final int CREATURE_RUH = 0xE;
     public static final int CREATURE_KRAKEN = 0xF;*/
-    
+
     public final static int decodeLandscape(int ucf){
-        return (ucf & LANDSCAPE_TYPE_MASK) >> LANDSCAPE_TYPE_SHIFT;
+        return decode(ucf, LANDSCAPE_TYPE_MASK, LANDSCAPE_TYPE_SHIFT);
     }
 
     // uf -> ucf
     public final static int endodeLandscape(int ucf , int uf){
-        return (ucf & ~LANDSCAPE_TYPE_MASK)  | (uf << LANDSCAPE_TYPE_SHIFT);
+        return encode(ucf, uf, LANDSCAPE_TYPE_MASK, LANDSCAPE_TYPE_SHIFT);
     }
    /* public final static int decodeCreature(int ucf){
         return (ucf & CREATURE_MASK) >> 8;
@@ -84,4 +84,10 @@ public class UcfCoder {
         return (ucf & ~CREATURE_MASK)  | (uf << 8);
     }
 */
+   private static int encode(int ucf , int uf, int mask, int shift){
+       return (ucf & ~mask)  | (uf << shift & mask);
+   }
+    public final static int decode(int ucf, int mask, int shift){
+        return (ucf & mask) >>> shift;
+    }
 }
